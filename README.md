@@ -3,7 +3,13 @@
 [![travis-badge][]][travis] [![release-badge][]][cargo] [![docs-badge][]][docs] [![license-badge][]][license]
 
 `ddc-i2c` implements the [`ddc`](https://crates.io/crates/ddc) traits for
-[`i2c`](https://crates.io/crates/i2c) implementations, such as [`i2c-linux`](https://crates.io/crates/i2c-linux).
+[`i2c`](https://crates.io/crates/i2c) implementations.
+
+## Backends
+
+- `i2c-linux` using the `with-linux` Cargo feature.
+  - The `with-linux-enumerate` feature exposes an iterator over all detected
+    displays.
 
 ## [Documentation][docs]
 
