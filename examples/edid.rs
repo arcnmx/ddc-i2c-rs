@@ -43,7 +43,7 @@ fn main() {
     match path {
         Some(path) => edid(path).expect("failed to get EDID"),
         #[cfg(feature = "with-linux-enumerate")]
-        None => ddc::Enumerator::new().expect("failed to enumerate DDC devices").for_each(|p| match edid(p) {
+        None => ddc_i2c::I2cDeviceEnumerator::new().expect("failed to enumerate DDC devices").for_each(|i2c| match ddc(i2c) {
             Ok(()) => (),
             Err(e) => println!("Failure: {:?}", e),
         }),

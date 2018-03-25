@@ -13,13 +13,19 @@ use {I2cDdc, I2cDeviceDdc, i2c_linux};
 /// # Example
 ///
 /// ```rust,no_run
-/// use ddc::{Enumerator, Ddc};
+/// extern crate ddc;
+/// extern crate ddc_i2c;
 ///
-/// let displays = Enumerator::new().unwrap();
+/// use ddc::Ddc;
+/// use ddc_i2c::I2cDeviceEnumerator;
+///
+/// # fn main() {
+/// let displays = I2cDeviceEnumerator::new().unwrap();
 /// for mut ddc in displays {
 ///     let mccs_version = ddc.get_vcp_feature(0xdf).unwrap();
 ///     println!("MCCS version: {:04x}", mccs_version.maximum());
 /// }
+/// # }
 /// ```
 ///
 /// # Dependency

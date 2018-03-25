@@ -6,6 +6,7 @@
 //! # Example
 //!
 //! ```rust,no_run
+//! extern crate ddc_i2c;
 //! extern crate ddc;
 //!
 //! # fn main() {
