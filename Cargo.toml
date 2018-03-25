@@ -1,10 +1,10 @@
 [package]
 name = "ddc-i2c"
-version = "0.0.1"
+version = "0.1.0"
 authors = ["arcnmx"]
 
 description = "DDC/CI monitor control over I2C"
-keywords = ["ddc/ci", "mccs", "vcp", "vesa"]
+keywords = ["ddc", "mccs", "vcp", "vesa"]
 
 documentation = "http://arcnmx.github.io/ddc-i2c-rs/ddc_i2c"
 repository = "https://github.com/arcnmx/ddc-i2c-rs"
