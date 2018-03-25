@@ -1,0 +1,46 @@
+language: rust
+rust:
+- stable
+sudo: false
+os:
+- linux
+addons:
+  apt:
+    packages:
+    - libudev-dev
+cache:
+  directories:
+  - "$HOME/.cargo"
+  - target
+matrix:
+  fast_finish: true
+  allow_failures:
+  - rust: nightly
+env:
+  matrix:
+  - CARGO_FEATURES=
+  - CARGO_FEATURES=with-linux
+  - CARGO_FEATURES=with-linux-enumerate
+  global:
+  - CARGO_QUIET=
+  - CARGO_INCREMENTAL=0
+  - secure: bLV3JpGam9SuSQcdj7+9cBXVIJDQdbgK9onlux4WPf6rOb6UAEUjU9X1RwYtQN2g2fDSekvDhmxTOUegR9DyIJ35Pq2BgqBZ4uJS2lYyOzxsBjg7l95OdTsbTVx7A0e57OH//9dXDp00Ng1rh1T1lyWzYiUJy7rpnAqB1XATBekvXibVwxkxXC2HfinxHw2u1Gb3pvR42Je30RekaWkBfEni067hC6gOCk/k5PngxsGhF56a6O1knCfkuEMEdEZUPqcg4VbBtxVmYY4SHw6vgLvnTNrfLH/lLgTgY3LYFQgPE4PiJkhv3n/duI+Bg+6vcKseyqGK0plI3GmqSP4AOND43wg76EaSi+HqvniKups9y5ysfc69d8YRhwct4OK1roxEPD9mVVv6xngE3+8F2tWaC/vcpjJi23dK1J4MUe9faRF49Y6VFIZlQAAYEV3B+CmQeWS6StLULkraFa+uZPLe1sFs1kVmVeBUcJGtunqFUtGFmPWe86eFdh7DQfJwcLURNCgisCoYzKlFKYY7rdeknaviYAGDYUFa6K5UfxFITzO9fQbT+/DjNWXcG8v1Bo8zxSIwkNl8UvZL44KB/Ps5UbfR2c30h3HKG8qYeSfw8uKt6Vy6XzV5EAK+8wKWY0Aq/YO9WeKXXwYAqBTQ+vf42UTxVzJ4A2bLz3tumb8=
+  - secure: ikSgDSPheRUojYvzWIgzi1ORT1dVTmEEAbvCyl0f6vkgxZZE5g/t/CSYyOPcMUMxw8cbv8YxAMKKr3oMRyPBgPN7gg0Ew17cphyahP3eK2AoE4zK/WyP8dRMeZjSsq4DAq+8jYy36Ez+ZXRFyErC4SJOQhQWY2J8aDMRkeYeHurSMfyrGGUAO8ccxd4Omfj3FW2UxQxqvPC7JQG8kOq8QMZD8XKNwy6X1G4jbJocFOcrWlhd/e1AhvMO2665sN+PY0YgRMmJRiovkdnqQ+THMX4f++0VoBNiGFLC30buYvF3ssbnZteDD2+7lbZ5SsKpReTynDtHtkklYD9JOJvWsB5bulX/x+cR+wmuNrxIisGl81l/X5NMZZ85S5S7EYW3s2OoKEDoAMa44RCpW/eiMtzdCDB88lpL9ieHGg/c/L6LVOIumkhl5Wsx767r6ZrQi9t8cM2jztoGOif2hQgeVa7poPtRS1h9f9LDN16Jo/n9q7bNvawx5iicPiOoir35iEw2t10JZWIzR5bR6aNKvGdKiAwxYRmxgJ1rnLnHWuMMTo61PXBrSUOKW3VTuqIjWxpMM4Hxr4Cq9jghFzUEJn/OC9hTiXYuMSpr2daaM8YPVhXOjDl4wln0dFn4iFftSAZTQXMnibEe2Vn06k4P/T2DOQOgXbl92egjikrcJyQ=
+before_install:
+- curl -L https://github.com/arcnmx/ci/archive/0.2.tar.gz | tar -xzC $HOME && . $HOME/ci-0.2/src
+script:
+- cargo test
+- cargo build
+deploy:
+  provider: script
+  script: 'true'
+  on:
+    tags: true
+    all_branches: true
+    condition: "$TRAVIS_RUST_VERSION = stable && $CARGO_FEATURES = with-linux-enumerate"
+before_deploy:
+- cargo doc
+- cargo package
+after_deploy:
+- cargo pages-publish
+- cargo publish

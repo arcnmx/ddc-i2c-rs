@@ -1,0 +1,29 @@
+[package]
+name = "ddc-i2c"
+version = "0.0.1"
+authors = ["arcnmx"]
+
+description = "DDC/CI monitor control over I2C"
+keywords = ["ddc/ci", "mccs", "vcp", "vesa"]
+
+documentation = "http://arcnmx.github.io/ddc-i2c-rs/ddc_i2c"
+repository = "https://github.com/arcnmx/ddc-i2c-rs"
+readme = "README.md"
+license = "MIT"
+
+[badges]
+travis-ci = { repository = "arcnmx/ddc-i2c-rs" }
+maintenance = { status = "passively-maintained" }
+
+[dependencies]
+ddc = { version = "^0.1.0", git = "https://github.com/arcnmx/ddc-rs.git" }
+i2c-linux = { version = "^0.1.0", features = ["i2c"], optional = true }
+i2c = "^0.1.0"
+resize-slice = "^0.1.2"
+
+[dev-dependencies]
+edid = "^0.2.0"
+
+[features]
+with-linux-enumerate = ["i2c-linux", "i2c-linux/udev"]
+with-linux = ["i2c-linux"]
