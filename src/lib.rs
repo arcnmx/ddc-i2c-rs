@@ -12,7 +12,7 @@
 //! # fn main() {
 //! use ddc::Ddc;
 //!
-//! # #[cfg(feature = "i2c-linux")] fn ddc() {
+//! # #[cfg(all(target_os = "linux", feature = "i2c-linux"))] fn ddc() {
 //! let mut ddc = ddc_i2c::from_i2c_device("/dev/i2c-4").unwrap();
 //! let mccs_version = ddc.get_vcp_feature(0xdf).unwrap();
 //! println!("MCCS version: {:04x}", mccs_version.maximum());
@@ -23,7 +23,7 @@
 extern crate ddc;
 extern crate i2c;
 extern crate resize_slice;
-#[cfg(feature = "i2c-linux")]
+#[cfg(all(target_os = "linux", feature = "i2c-linux"))]
 extern crate i2c_linux;
 
 use std::thread::sleep;
@@ -38,9 +38,9 @@ use ddc::{
     ErrorCode,
 };
 
-#[cfg(feature = "with-linux-enumerate")]
+#[cfg(all(target_os = "linux", feature = "with-linux-enumerate"))]
 mod enumerate;
-#[cfg(feature = "with-linux-enumerate")]
+#[cfg(all(target_os = "linux", feature = "with-linux-enumerate"))]
 pub use enumerate::Enumerator as I2cDeviceEnumerator;
 
 /// A handle to provide DDC/CI operations on an I2C device.
@@ -51,11 +51,11 @@ pub struct I2cDdc<I> {
 }
 
 /// DDC/CI on Linux i2c-dev
-#[cfg(feature = "i2c-linux")]
+#[cfg(all(target_os = "linux", feature = "i2c-linux"))]
 pub type I2cDeviceDdc = I2cDdc<::i2c_linux::I2c<::std::fs::File>>;
 
 /// Open a new DDC/CI handle with the specified I2C device node path
-#[cfg(feature = "i2c-linux")]
+#[cfg(all(target_os = "linux", feature = "i2c-linux"))]
 pub fn from_i2c_device<P: AsRef<::std::path::Path>>(p: P) -> ::std::io::Result<I2cDeviceDdc> {
     Ok(I2cDdc::new(::i2c_linux::I2c::from_path(p)?))
 }
