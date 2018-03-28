@@ -317,7 +317,7 @@
 <span class="doccomment">//! # fn main() {</span>
 <span class="doccomment">//! use ddc::Ddc;</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! # #[cfg(feature = &quot;i2c-linux&quot;)] fn ddc() {</span>
+<span class="doccomment">//! # #[cfg(all(target_os = &quot;linux&quot;, feature = &quot;i2c-linux&quot;))] fn ddc() {</span>
 <span class="doccomment">//! let mut ddc = ddc_i2c::from_i2c_device(&quot;/dev/i2c-4&quot;).unwrap();</span>
 <span class="doccomment">//! let mccs_version = ddc.get_vcp_feature(0xdf).unwrap();</span>
 <span class="doccomment">//! println!(&quot;MCCS version: {:04x}&quot;, mccs_version.maximum());</span>
@@ -328,7 +328,7 @@
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">ddc</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">i2c</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">resize_slice</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;i2c-linux&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;linux&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;i2c-linux&quot;</span>))]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">i2c_linux</span>;
 
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">thread</span>::<span class="ident">sleep</span>;
@@ -343,9 +343,9 @@
     <span class="ident">ErrorCode</span>,
 };
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;with-linux-enumerate&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;linux&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;with-linux-enumerate&quot;</span>))]</span>
 <span class="kw">mod</span> <span class="ident">enumerate</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;with-linux-enumerate&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;linux&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;with-linux-enumerate&quot;</span>))]</span>
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">enumerate</span>::<span class="ident">Enumerator</span> <span class="kw">as</span> <span class="ident">I2cDeviceEnumerator</span>;
 
 <span class="doccomment">/// A handle to provide DDC/CI operations on an I2C device.</span>
@@ -356,11 +356,11 @@
 }
 
 <span class="doccomment">/// DDC/CI on Linux i2c-dev</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;i2c-linux&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;linux&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;i2c-linux&quot;</span>))]</span>
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">I2cDeviceDdc</span> <span class="op">=</span> <span class="ident">I2cDdc</span><span class="op">&lt;</span>::<span class="ident">i2c_linux</span>::<span class="ident">I2c</span><span class="op">&lt;</span>::<span class="ident">std</span>::<span class="ident">fs</span>::<span class="ident">File</span><span class="op">&gt;&gt;</span>;
 
 <span class="doccomment">/// Open a new DDC/CI handle with the specified I2C device node path</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;i2c-linux&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;linux&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;i2c-linux&quot;</span>))]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_i2c_device</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>::<span class="ident">std</span>::<span class="ident">path</span>::<span class="ident">Path</span><span class="op">&gt;&gt;</span>(<span class="ident">p</span>: <span class="ident">P</span>) <span class="op">-&gt;</span> ::<span class="ident">std</span>::<span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">I2cDeviceDdc</span><span class="op">&gt;</span> {
     <span class="prelude-val">Ok</span>(<span class="ident">I2cDdc</span>::<span class="ident">new</span>(::<span class="ident">i2c_linux</span>::<span class="ident">I2c</span>::<span class="ident">from_path</span>(<span class="ident">p</span>)<span class="question-mark">?</span>))
 }
