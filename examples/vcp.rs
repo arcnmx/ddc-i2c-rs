@@ -17,7 +17,7 @@ fn main() {
 
     let path = args().nth(1).expect("argument: i2c device path");
 
-    ddc(ddc_i2c::from_i2c_device(path).expect("failed to open i2c device"))
+    ddc(ddc_i2c::open_linux_device(path).expect("failed to open i2c device"))
 }
 
 #[cfg(not(all(target_os = "linux", feature = "i2c-linux")))]

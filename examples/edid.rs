@@ -9,7 +9,7 @@ fn edid<P: AsRef<Path>>(path: P) -> io::Result<()> {
 
     println!("Opening {}", path.display());
 
-    ddc(ddc_i2c::from_i2c_device(path)?)
+    ddc(ddc_i2c::open_linux_device(path)?)
 }
 
 #[cfg(not(all(target_os = "linux", feature = "i2c-linux")))]

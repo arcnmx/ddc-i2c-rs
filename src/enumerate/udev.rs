@@ -1,5 +1,5 @@
 use {
-    crate::{I2cDdc, I2cDeviceDdc},
+    crate::{I2cDdc, LinuxDevice},
     ddc::Edid,
     i2c_linux::enumerate::{EnumeratedDevice, UdevDevice},
     std::{ffi::OsStr, io, os::unix::ffi::OsStrExt, vec},
@@ -108,14 +108,14 @@ impl EnumeratedI2cDevice {
     }
 
     /// Open a handle to this device.
-    pub fn open(&self) -> io::Result<I2cDeviceDdc> {
+    pub fn open(&self) -> io::Result<LinuxDevice> {
         self.device.open().map(I2cDdc::new)
     }
 
     /// [Open](open) a handle to this device.
     ///
     /// This performs a read to check whether there's a DDC device on the other end.
-    pub fn open_checked(&self) -> io::Result<I2cDeviceDdc> {
+    pub fn open_checked(&self) -> io::Result<LinuxDevice> {
         let mut i2c = self.open()?;
         let _ = i2c.read_edid(0, &mut [0u8; 0x80])?;
         Ok(i2c)

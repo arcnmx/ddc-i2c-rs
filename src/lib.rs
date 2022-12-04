@@ -11,7 +11,7 @@
 //! use ddc::Ddc;
 //!
 //! # #[cfg(all(target_os = "linux", feature = "i2c-linux"))] fn ddc() {
-//! let mut ddc = ddc_i2c::from_i2c_device("/dev/i2c-4").unwrap();
+//! let mut ddc = ddc_i2c::open_linux_device("/dev/i2c-4").unwrap();
 //! let mccs_version = ddc.get_vcp_feature(0xdf).unwrap();
 //! println!("MCCS version: {:04x}", mccs_version.maximum());
 //! # }
@@ -42,12 +42,14 @@ pub struct I2cDdc<I> {
 
 /// DDC/CI on Linux i2c-dev
 #[cfg(all(target_os = "linux", feature = "i2c-linux"))]
-pub type I2cDeviceDdc = I2cDdc<::i2c_linux::I2c<::std::fs::File>>;
+#[cfg_attr(feature = "doc", doc(cfg(all(target_os = "linux", feature = "i2c-linux"))))]
+pub type LinuxDevice = I2cDdc<i2c_linux::I2c<std::fs::File>>;
 
 /// Open a new DDC/CI handle with the specified I2C device node path
 #[cfg(all(target_os = "linux", feature = "i2c-linux"))]
-pub fn from_i2c_device<P: AsRef<::std::path::Path>>(p: P) -> ::std::io::Result<I2cDeviceDdc> {
-    Ok(I2cDdc::new(::i2c_linux::I2c::from_path(p)?))
+#[cfg_attr(feature = "doc", doc(cfg(all(target_os = "linux", feature = "i2c-linux"))))]
+pub fn open_linux_device<P: AsRef<std::path::Path>>(p: P) -> std::io::Result<LinuxDevice> {
+    Ok(I2cDdc::new(i2c_linux::I2c::from_path(p)?))
 }
 
 impl<I> I2cDdc<I> {
