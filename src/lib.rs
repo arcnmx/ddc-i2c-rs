@@ -1,5 +1,6 @@
 #![deny(missing_docs)]
-#![doc(html_root_url = "https://docs.rs/ddc-i2c/0.2.1/")]
+#![doc(html_root_url = "https://docs.rs/ddc-i2c/0.3.0/")]
+#![cfg_attr(feature = "doc", feature(doc_cfg))]
 
 //! Implementation of DDC/CI traits over I2C.
 //!
@@ -17,16 +18,20 @@
 //! # }
 //! ```
 
+#[cfg(all(target_os = "linux", feature = "enumerate-udev"))]
+#[cfg_attr(feature = "doc", doc(cfg(feature = "enumerate-udev")))]
+pub use enumerate::udev::Enumerator as UdevEnumerator;
+#[cfg(all(target_os = "linux", feature = "enumerate-udev", feature = "enumerate"))]
+#[cfg_attr(feature = "doc", doc(cfg(feature = "enumerate")))]
+pub use enumerate::Enumerator;
 use {
     ddc::{DdcCommand, DdcCommandMarker, DdcCommandRaw, DdcCommandRawMarker, DdcHost, Delay, Eddc, Edid, ErrorCode},
-    resize_slice::ResizeSlice,
     std::{cmp, error, fmt, io, iter, thread::sleep, time::Duration},
 };
 
-#[cfg(all(target_os = "linux", feature = "with-linux-enumerate"))]
-mod enumerate;
-#[cfg(all(target_os = "linux", feature = "with-linux-enumerate"))]
-pub use enumerate::Enumerator as I2cDeviceEnumerator;
+#[cfg(any(feature = "enumerate", feature = "enumerate-udev"))]
+#[cfg_attr(feature = "doc", doc(cfg(feature = "enumerate")))]
+pub mod enumerate;
 
 /// A handle to provide DDC/CI operations on an I2C device.
 #[derive(Clone, Debug)]
@@ -90,7 +95,7 @@ impl<I: i2c::Address + i2c::BlockTransfer> Edid for I2cDdc<I> {
             } else {
                 break
             };
-            data.resize_from(read);
+            data = &mut data[read..];
         }
 
         Ok(len)

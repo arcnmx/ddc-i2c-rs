@@ -40,10 +40,10 @@ fn main() {
 
     match path {
         Some(path) => edid(path).expect("failed to get EDID"),
-        #[cfg(all(target_os = "linux", feature = "with-linux-enumerate"))]
-        None => ddc_i2c::I2cDeviceEnumerator::new()
+        #[cfg(all(target_os = "linux", feature = "enumerate-udev"))]
+        None => ddc_i2c::Enumerator::new()
             .expect("failed to enumerate DDC devices")
-            .for_each(|i2c| match ddc(i2c) {
+            .for_each(|i2c| match i2c.open().and_then(|i2c| ddc(i2c)) {
                 Ok(()) => (),
                 Err(e) => println!("Failure: {:?}", e),
             }),

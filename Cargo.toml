@@ -1,8 +1,8 @@
 [package]
 name = "ddc-i2c"
-version = "0.2.1"
+version = "0.3.0" # keep in sync with html_root_url
 authors = ["arcnmx"]
-edition = "2018"
+edition = "2021"
 
 description = "DDC/CI monitor control over I2C"
 keywords = ["ddc", "mccs", "vcp", "vesa"]
@@ -23,17 +23,22 @@ include = [
 [badges]
 maintenance = { status = "passively-maintained" }
 
+[package.metadata.docs.rs]
+features = ["default", "doc"]
+
 [dependencies]
-ddc = "0.2"
+ddc = { version = "0.3", git = "https://github.com/arcnmx/ddc-rs", branch = "v0.3.x" }
 i2c = "0.1"
-resize-slice = "0.1"
 
 [target.'cfg(target_os = "linux")'.dependencies]
-i2c-linux = { version = "0.1", features = ["i2c"], optional = true }
+i2c-linux = { version = "0.2", features = ["i2c"], optional = true, git = "https://github.com/arcnmx/i2c-linux-rs", branch = "v0.2.x" }
 
 [dev-dependencies]
 edid = "0.3"
 
 [features]
-with-linux-enumerate = ["i2c-linux", "i2c-linux/udev"]
-with-linux = ["i2c-linux"]
+default = ["i2c-linux", "enumerate"]
+enumerate = ["enumerate-udev"]
+enumerate-udev = ["i2c-linux", "i2c-linux?/udev"]
+i2c-linux = ["dep:i2c-linux"]
+doc = []

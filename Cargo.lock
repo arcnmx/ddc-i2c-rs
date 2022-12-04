@@ -16,22 +16,20 @@ checksum = "14c189c53d098945499cdfa7ecc63567cf3886b3332b312a5b4585d8d3a6a610"
 
 [[package]]
 name = "ddc"
-version = "0.2.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ba69f2c53e320fc4abad17cb02bbbf04d1a36f18e9907f347589ec5991b3c6c5"
+version = "0.3.0"
+source = "git+https://github.com/arcnmx/ddc-rs?branch=v0.3.x#fbbff56372a957bed86a99cd6bc4717a7c433397"
 dependencies = [
  "mccs",
 ]
 
 [[package]]
 name = "ddc-i2c"
-version = "0.2.1"
+version = "0.3.0"
 dependencies = [
  "ddc",
  "edid",
  "i2c",
  "i2c-linux",
- "resize-slice",
 ]
 
 [[package]]
@@ -54,9 +52,8 @@ dependencies = [
 
 [[package]]
 name = "i2c-linux"
-version = "0.1.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c0268a871aaa071221d6c2875ebedcf64710e59b0d87c68c8faf5e98b87dd2a4"
+version = "0.2.0"
+source = "git+https://github.com/arcnmx/i2c-linux-rs?branch=v0.2.x#f0aea3cd6b6fa825960cf0f765c53f92ff616e25"
 dependencies = [
  "bitflags",
  "i2c",
@@ -94,12 +91,8 @@ dependencies = [
 
 [[package]]
 name = "mccs"
-version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "74366c6da4179141e0d4551a46799a7e667a68eda60561690d5048bd8e0f8422"
-dependencies = [
- "void",
-]
+version = "0.2.0"
+source = "git+https://github.com/arcnmx/mccs-rs?branch=v0.2.x#e2be7229140632b04f4252d6e779fcfe90b6046e"
 
 [[package]]
 name = "memchr"
@@ -136,12 +129,13 @@ dependencies = [
 
 [[package]]
 name = "udev"
-version = "0.2.0"
+version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "47504d1a49b2ea1b133e7ddd1d9f0a83cf03feb9b440c2c470d06db4589cf301"
+checksum = "4ebdbbd670373442a12fe9ef7aeb53aec4147a5a27a00bbc3ab639f08f48191a"
 dependencies = [
  "libc",
  "libudev-sys",
+ "pkg-config",
 ]
 
 [[package]]
@@ -149,9 +143,3 @@ name = "uninitialized"
 version = "0.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "74c1aa4511c38276c548406f0b1f5f8b793f000cfb51e18f278a102abd057e81"
-
-[[package]]
-name = "void"
-version = "1.0.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6a02e4885ed3bc0f2de90ea6dd45ebcbb66dacffe03547fadbb0eeae2770887d"
