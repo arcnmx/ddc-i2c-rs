@@ -5,14 +5,21 @@ authors = ["arcnmx"]
 
 description = "DDC/CI monitor control over I2C"
 keywords = ["ddc", "mccs", "vcp", "vesa"]
+categories = ["hardware-support", "api-bindings"]
 
-documentation = "http://arcnmx.github.io/ddc-i2c-rs/ddc_i2c"
+documentation = "https://docs.rs/ddc-i2c"
 repository = "https://github.com/arcnmx/ddc-i2c-rs"
 readme = "README.md"
 license = "MIT"
 
+include = [
+	"/src/**.rs",
+	"/examples/**.rs",
+	"/README*",
+	"/COPYING*",
+]
+
 [badges]
-travis-ci = { repository = "arcnmx/ddc-i2c-rs" }
 maintenance = { status = "passively-maintained" }
 
 [dependencies]

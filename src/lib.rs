@@ -1,5 +1,5 @@
 #![deny(missing_docs)]
-#![doc(html_root_url = "http://arcnmx.github.io/ddc-i2c-rs/")]
+#![doc(html_root_url = "https://docs.rs/ddc-i2c/0.2.1/")]
 
 //! Implementation of DDC/CI traits over I2C.
 //!
@@ -176,7 +176,7 @@ impl<I: i2c::Address + i2c::ReadWrite> DdcCommandRaw for I2cDdc<I> {
         let len = (out[1] & 0x7f) as usize;
 
         if out[1] & 0x80 == 0 {
-            // TODO: apparently sometimes this isn't true?
+            // TODO: the meaning of this bit is unclear?
             return Err(Error::Ddc(ErrorCode::Invalid("Expected DDC/CI length bit".into())))
         }
 
