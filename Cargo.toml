@@ -13,8 +13,8 @@ readme = "README.md"
 license = "MIT"
 
 include = [
-	"/src/**.rs",
-	"/examples/**.rs",
+	"/src/**/*.rs",
+	"/examples/**/*.rs",
 	"/README*",
 	"/COPYING*",
 ]
