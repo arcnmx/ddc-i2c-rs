@@ -1,10 +1,10 @@
 extern crate ddc;
 extern crate ddc_i2c;
 
-use std::env::args;
-use ddc::Ddc;
+use {ddc::Ddc, std::env::args};
 
-fn ddc<D: Ddc>(mut ddc: D) where
+fn ddc<D: Ddc>(mut ddc: D)
+where
     D::Error: ::std::fmt::Debug,
 {
     let mccs_ver = ddc.get_vcp_feature(0xdf).expect("failed to read VCP value");

@@ -1,7 +1,9 @@
-use std::os::unix::ffi::OsStrExt;
-use std::io;
-use ddc::Edid;
-use {I2cDdc, I2cDeviceDdc, i2c_linux};
+use {
+    ddc::Edid,
+    i2c_linux,
+    std::{io, os::unix::ffi::OsStrExt},
+    I2cDdc, I2cDeviceDdc,
+};
 
 /// Enumerate all currently attached displays on the system.
 ///
@@ -54,13 +56,8 @@ impl Iterator for Enumerator {
                 None => continue,
             };
 
-            let skip_prefix = [ // list stolen from ddcutil's ignorable_i2c_device_sysfs_name
-                "SMBus",
-                "soc:i2cdsi",
-                "smu",
-                "mac-io",
-                "u4",
-            ];
+            // list stolen from ddcutil's ignorable_i2c_device_sysfs_name
+            let skip_prefix = ["SMBus", "soc:i2cdsi", "smu", "mac-io", "u4"];
 
             if skip_prefix.iter().any(|p| name.as_bytes().starts_with(p.as_bytes())) {
                 continue

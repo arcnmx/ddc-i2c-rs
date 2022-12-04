@@ -1,8 +1,7 @@
 extern crate ddc;
 extern crate ddc_i2c;
 
-use std::str;
-use ddc::Ddc;
+use {ddc::Ddc, std::str};
 
 #[cfg(feature = "i2c-linux")]
 fn main() {
@@ -20,7 +19,8 @@ fn main() {
     unimplemented!()
 }
 
-fn ddc<D: Ddc>(mut ddc: D) where
+fn ddc<D: Ddc>(mut ddc: D)
+where
     D::Error: ::std::fmt::Debug,
 {
     let caps = ddc.capabilities_string().expect("failed to read ddc capabilities");

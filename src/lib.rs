@@ -22,20 +22,14 @@
 
 extern crate ddc;
 extern crate i2c;
-extern crate resize_slice;
 #[cfg(all(target_os = "linux", feature = "i2c-linux"))]
 extern crate i2c_linux;
+extern crate resize_slice;
 
-use std::thread::sleep;
-use std::time::Duration;
-use std::{iter, cmp, io, fmt, error};
-use resize_slice::ResizeSlice;
-use ddc::{
-    Delay,
-    Edid, Eddc,
-    DdcHost, DdcCommand, DdcCommandRaw,
-    DdcCommandRawMarker, DdcCommandMarker,
-    ErrorCode,
+use {
+    ddc::{DdcCommand, DdcCommandMarker, DdcCommandRaw, DdcCommandRawMarker, DdcHost, Delay, Eddc, Edid, ErrorCode},
+    resize_slice::ResizeSlice,
+    std::{cmp, error, fmt, io, iter, thread::sleep, time::Duration},
 };
 
 #[cfg(all(target_os = "linux", feature = "with-linux-enumerate"))]
@@ -130,7 +124,7 @@ impl<I: i2c::Address + i2c::BlockTransfer + i2c::BulkTransfer> Eddc for I2cDdc<I
                 },
                 i2c::Message::Read {
                     address: ddc::I2C_ADDRESS_EDID,
-                    data: data,
+                    data,
                     flags: Default::default(),
                 },
             ];
@@ -151,12 +145,19 @@ impl<I: i2c::Master> ::DdcHost for I2cDdc<I> {
 }
 
 impl<I: i2c::Address + i2c::ReadWrite> DdcCommandRaw for I2cDdc<I> {
-    fn execute_raw<'a>(&mut self, data: &[u8], out: &'a mut [u8], response_delay: Duration) -> Result<&'a mut [u8], Error<I::Error>> {
+    fn execute_raw<'a>(
+        &mut self,
+        data: &[u8],
+        out: &'a mut [u8],
+        response_delay: Duration,
+    ) -> Result<&'a mut [u8], Error<I::Error>> {
         assert!(data.len() <= 36);
 
         let mut packet = [0u8; 36 + 3];
         let packet = Self::encode_command(data, &mut packet);
-        self.inner.set_slave_address(ddc::I2C_ADDRESS_DDC_CI, false).map_err(Error::I2c)?;
+        self.inner
+            .set_slave_address(ddc::I2C_ADDRESS_DDC_CI, false)
+            .map_err(Error::I2c)?;
 
         let full_len = {
             self.sleep();
@@ -186,8 +187,8 @@ impl<I: i2c::Address + i2c::ReadWrite> DdcCommandRaw for I2cDdc<I> {
 
         let checksum = Self::checksum(
             iter::once(((ddc::I2C_ADDRESS_DDC_CI as u8) << 1) | 1)
-            .chain(iter::once(ddc::SUB_ADDRESS_DDC_CI))
-            .chain(out[1..2 + len].iter().cloned())
+                .chain(iter::once(ddc::SUB_ADDRESS_DDC_CI))
+                .chain(out[1..2 + len].iter().cloned()),
         );
 
         if out[2 + len] != checksum {
@@ -198,7 +199,7 @@ impl<I: i2c::Address + i2c::ReadWrite> DdcCommandRaw for I2cDdc<I> {
     }
 }
 
-impl<I: i2c::Address + i2c::ReadWrite> DdcCommandMarker for I2cDdc<I> { }
+impl<I: i2c::Address + i2c::ReadWrite> DdcCommandMarker for I2cDdc<I> {}
 
 impl<I: i2c::Address + i2c::ReadWrite> DdcCommandRawMarker for I2cDdc<I> {
     fn set_sleep_delay(&mut self, delay: Delay) {
