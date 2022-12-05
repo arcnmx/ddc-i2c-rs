@@ -17,6 +17,8 @@ in {
     nixos = {
       tasks.rustfmt.inputs = singleton checks.rustfmt;
       tasks.version.inputs = singleton checks.version;
+      # TODO: cross-windows build
     };
+    macos.system = "x86_64-darwin";
   };
 }

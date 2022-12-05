@@ -1,6 +1,6 @@
 use {ddc::Ddc, std::str};
 
-#[cfg(feature = "i2c-linux")]
+#[cfg(all(target_os = "linux", feature = "i2c-linux"))]
 fn main() {
     //::env_logger::init();
 
@@ -11,7 +11,7 @@ fn main() {
     ddc(ddc_i2c::from_i2c_device(path).expect("failed to open i2c device"))
 }
 
-#[cfg(not(feature = "i2c-linux"))]
+#[cfg(not(all(target_os = "linux", feature = "i2c-linux")))]
 fn main() {
     unimplemented!()
 }

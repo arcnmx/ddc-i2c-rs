@@ -3,7 +3,7 @@ use {
     std::{env::args, io, path::Path},
 };
 
-#[cfg(feature = "i2c-linux")]
+#[cfg(all(target_os = "linux", feature = "i2c-linux"))]
 fn edid<P: AsRef<Path>>(path: P) -> io::Result<()> {
     let path = path.as_ref();
 
@@ -12,7 +12,7 @@ fn edid<P: AsRef<Path>>(path: P) -> io::Result<()> {
     ddc(ddc_i2c::from_i2c_device(path)?)
 }
 
-#[cfg(not(feature = "i2c-linux"))]
+#[cfg(not(all(target_os = "linux", feature = "i2c-linux")))]
 fn edid<P: AsRef<Path>>(_path: P) -> io::Result<()> {
     unimplemented!()
 }
@@ -40,14 +40,14 @@ fn main() {
 
     match path {
         Some(path) => edid(path).expect("failed to get EDID"),
-        #[cfg(feature = "with-linux-enumerate")]
+        #[cfg(all(target_os = "linux", feature = "with-linux-enumerate"))]
         None => ddc_i2c::I2cDeviceEnumerator::new()
             .expect("failed to enumerate DDC devices")
             .for_each(|i2c| match ddc(i2c) {
                 Ok(()) => (),
                 Err(e) => println!("Failure: {:?}", e),
             }),
-        #[cfg(not(feature = "with-linux-enumerate"))]
-        None => panic!("argument: i2c device path"),
+        #[allow(unreachable_patterns)]
+        _ => panic!("argument: i2c device path"),
     }
 }

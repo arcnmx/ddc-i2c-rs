@@ -16,7 +16,7 @@
     nixlib = nixpkgs.lib;
   in flakelib {
     inherit inputs;
-    systems = [ "x86_64-linux" "aarch64-linux" ];
+    systems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
     devShells = {
       plain = {
         mkShell, writeShellScriptBin, hostPlatform
