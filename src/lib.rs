@@ -1,5 +1,5 @@
 #![deny(missing_docs)]
-#![doc(html_root_url = "https://docs.rs/ddc-i2c/0.2.1/")]
+#![doc(html_root_url = "https://docs.rs/ddc-i2c/0.2.2/")]
 
 //! Implementation of DDC/CI traits over I2C.
 //!
