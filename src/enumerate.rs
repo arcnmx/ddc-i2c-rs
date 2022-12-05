@@ -65,7 +65,7 @@ impl Iterator for Enumerator {
 
             let mut i2c = I2cDdc::new(i2c);
 
-            if i2c.read_edid(0, &mut [0u8]).is_err() {
+            if i2c.read_edid(0, &mut [0u8; 0x80]).is_err() {
                 continue
             }
 
