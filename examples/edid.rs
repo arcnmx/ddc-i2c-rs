@@ -1,7 +1,3 @@
-extern crate ddc;
-extern crate ddc_i2c;
-extern crate edid;
-
 use {
     ddc::Edid,
     std::{env::args, io, path::Path},

@@ -2,6 +2,7 @@
 name = "ddc-i2c"
 version = "0.2.1"
 authors = ["arcnmx"]
+edition = "2018"
 
 description = "DDC/CI monitor control over I2C"
 keywords = ["ddc", "mccs", "vcp", "vesa"]

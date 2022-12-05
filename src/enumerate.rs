@@ -1,8 +1,8 @@
 use {
+    crate::{I2cDdc, I2cDeviceDdc},
     ddc::Edid,
     i2c_linux,
     std::{io, os::unix::ffi::OsStrExt},
-    I2cDdc, I2cDeviceDdc,
 };
 
 /// Enumerate all currently attached displays on the system.
@@ -15,9 +15,6 @@ use {
 /// # Example
 ///
 /// ```rust,no_run
-/// extern crate ddc;
-/// extern crate ddc_i2c;
-///
 /// use ddc::Ddc;
 /// use ddc_i2c::I2cDeviceEnumerator;
 ///

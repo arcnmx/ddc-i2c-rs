@@ -1,6 +1,3 @@
-extern crate ddc;
-extern crate ddc_i2c;
-
 use {ddc::Ddc, std::env::args};
 
 fn ddc<D: Ddc>(mut ddc: D)

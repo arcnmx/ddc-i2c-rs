@@ -6,9 +6,6 @@
 //! # Example
 //!
 //! ```rust,no_run
-//! extern crate ddc_i2c;
-//! extern crate ddc;
-//!
 //! # fn main() {
 //! use ddc::Ddc;
 //!
@@ -19,12 +16,6 @@
 //! # }
 //! # }
 //! ```
-
-extern crate ddc;
-extern crate i2c;
-#[cfg(all(target_os = "linux", feature = "i2c-linux"))]
-extern crate i2c_linux;
-extern crate resize_slice;
 
 use {
     ddc::{DdcCommand, DdcCommandMarker, DdcCommandRaw, DdcCommandRawMarker, DdcHost, Delay, Eddc, Edid, ErrorCode},
@@ -136,7 +127,7 @@ impl<I: i2c::Address + i2c::BlockTransfer + i2c::BulkTransfer> Eddc for I2cDdc<I
     }
 }
 
-impl<I: i2c::Master> ::DdcHost for I2cDdc<I> {
+impl<I: i2c::Master> DdcHost for I2cDdc<I> {
     type Error = Error<I::Error>;
 
     fn sleep(&mut self) {
@@ -233,21 +224,7 @@ impl<I: error::Error + Send + Sync + 'static> From<Error<I>> for io::Error {
     }
 }
 
-impl<I: error::Error> error::Error for Error<I> {
-    fn description(&self) -> &str {
-        match *self {
-            Error::I2c(ref e) => error::Error::description(e),
-            Error::Ddc(ref e) => error::Error::description(e),
-        }
-    }
-
-    fn cause(&self) -> Option<&error::Error> {
-        match *self {
-            Error::I2c(ref e) => error::Error::cause(e),
-            Error::Ddc(ref e) => error::Error::cause(e),
-        }
-    }
-}
+impl<I: error::Error> error::Error for Error<I> {}
 
 impl<I: fmt::Display> fmt::Display for Error<I> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
