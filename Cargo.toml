@@ -23,15 +23,15 @@ include = [
 maintenance = { status = "passively-maintained" }
 
 [dependencies]
-ddc = { version = "^0.2.0" }
-i2c = "^0.1.0"
-resize-slice = "^0.1.2"
+ddc = "0.2"
+i2c = "0.1"
+resize-slice = "0.1"
 
 [target.'cfg(target_os = "linux")'.dependencies]
-i2c-linux = { version = "^0.1.0", features = ["i2c"], optional = true }
+i2c-linux = { version = "0.1", features = ["i2c"], optional = true }
 
 [dev-dependencies]
-edid = "^0.2.0"
+edid = "0.3"
 
 [features]
 with-linux-enumerate = ["i2c-linux", "i2c-linux/udev"]
