@@ -96,8 +96,8 @@
         inherit (self.lib.crate) version cargoLock;
         inherit (outputs'devShells'plain.override { enableRust = false; }) buildInputs nativeBuildInputs;
         src = source;
-        cargoBuildFlags = [ "--all" "--no-default-features" ];
-        cargoTestFlags = [ "--all" ];
+        cargoBuildFlags = [ "--all-targets" "--no-default-features" ];
+        cargoTestFlags = [ "--all-targets" ];
         buildType = "debug";
         meta.name = "cargo test";
       };
