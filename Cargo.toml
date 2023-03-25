@@ -19,6 +19,9 @@ include = [
 	"/COPYING*",
 ]
 
+[package.metadata.docs.rs]
+all-features = true
+
 [badges]
 maintenance = { status = "passively-maintained" }
 
